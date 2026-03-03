@@ -18,7 +18,6 @@ if (registerForm) {
     const password = document.querySelector("#password").value;
     const confirmPassword = document.querySelector("#confirmPassword").value;
 
-    // TODO: validations
     if (password !== confirmPassword) {
       alert("Passwords do not match.");
       return;
@@ -36,8 +35,33 @@ if (registerForm) {
     users.push(newUser);
     saveUsers(users);
     window.location.href = "login.html";
+  });
+}
 
-    // TODO: save user to localStorage
-    // TODO: redirect to login
+const loginForm = document.querySelector("#loginForm");
+
+if (loginForm) {
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const email = document.querySelector("#email").value.trim().toLowerCase();
+    const password = document.querySelector("#password").value;
+
+    const users = getUsers();
+    const user = users.find((u) => u.email === email);
+
+    if (!user) {
+      alert("User not found.");
+      return;
+    }
+
+    if (user.password !== password) {
+      alert("Incorrect password.");
+      return;
+    }
+
+    localStorage.setItem("currentUser", JSON.stringify(user));
+
+    window.location.href = "index.html";
   });
 }
